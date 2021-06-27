@@ -2,3 +2,6 @@
 * Why? Because one just not simply automate memes. 
 * What does it od? Just define a yaml with the memes and captions and it will download them from https://imgflip.com
 
+## Limitations
+* It only allows to make memes with 2 text boxes.
+* Consult the memes available by ID [here](https://imgflip.com/popular_meme_ids). 

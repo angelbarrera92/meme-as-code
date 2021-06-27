@@ -14,6 +14,9 @@ type Meme struct {
 
 type Config struct {
 	OutputDir string `yaml:"output_dir"`
+	Username  string `default:""`
+	Password  string `default:""`
+	Overrive  bool   `default:false`
 	Memes     []Meme `yaml:"memes"`
 }
 

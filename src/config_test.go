@@ -21,6 +21,9 @@ var _ = Describe("Config", func() {
 
 			expected := &Config{
 				OutputDir: "output",
+				Username:  "",
+				Password:  "",
+				Overrive:  false,
 				Memes: []Meme{
 					{
 						Filename:   "one-just-dont-simply-01.jpg",
