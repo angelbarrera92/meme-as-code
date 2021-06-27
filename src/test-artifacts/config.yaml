@@ -1,0 +1,12 @@
+output_dir: output
+memes:
+  - filename: one-just-dont-simply-01.jpg
+    template_id: "61579"
+    captions: 
+      - "One just dont simply"
+      - "automate memes"
+  - filename: one-just-dont-simply-02.jpg
+    template_id: "61579"
+    captions: 
+      - "One just dont simply"
+      - "automate memes in yaml"
