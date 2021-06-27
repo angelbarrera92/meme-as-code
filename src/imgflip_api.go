@@ -3,6 +3,7 @@ package meme_as_code
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -32,22 +33,31 @@ func imgFlipApiPost(apiUrl string, meme Meme, username string, password string) 
 		"text0":       {meme.Captions[0]},
 		"text1":       {meme.Captions[1]},
 	}
-	resp, err := http.PostForm(apiUrl, data)
+	apiRawResp, err := http.PostForm(apiUrl, data)
 	if err == nil {
 		return "", err
 	}
-	var res map[interface{}]interface{}
 
-	json.NewDecoder(resp.Body).Decode(&res)
-	if success, ok := res["success"].(bool); ok {
+	imageUrl, err := GetUrl(apiRawResp.Body)
+	if err == nil {
+		return "", err
+	}
+	return imageUrl, nil
+}
+
+func GetUrl(apiRawResp io.Reader) (string, error) {
+	var response map[string]interface{}
+
+	json.NewDecoder(apiRawResp).Decode(&response)
+	if success, ok := response["success"].(bool); ok {
 		if !success {
-			if error_message, ok := res["error_message"].(string); ok {
+			if error_message, ok := response["error_message"].(string); ok {
 				return "", errors.New(error_message)
 			} else {
 				return "", errors.New("Unexpected response format for 'error_message' field")
 			}
 		} else {
-			if data, ok := res["data"].(map[string]interface{}); ok {
+			if data, ok := response["data"].(map[string]interface{}); ok {
 				if url, ok := data["url"].(string); ok {
 					return url, nil
 				} else {
