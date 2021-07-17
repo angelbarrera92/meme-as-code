@@ -7,20 +7,29 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 const ImgApiUrl = "https://api.imgflip.com/caption_image"
 
 func GetMemes(config *Config) error {
+	//create output directory
+	err := os.MkdirAll(config.OutputDir, 0775)
+	if err != nil {
+		log.Fatal(err)
+	}
 	for _, meme := range config.Memes {
 		imageUrl, err := imgFlipApiPost(ImgApiUrl, meme, config.Username, config.Password)
-		if err == nil {
+		if err != nil {
 			log.Print(err)
 			break
 		}
-		downloadFile(imageUrl,
+		err = downloadFile(imageUrl,
 			config.OutputDir+"/"+meme.Filename,
 			config.Overrive)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -34,12 +43,12 @@ func imgFlipApiPost(apiUrl string, meme Meme, username string, password string) 
 		"text1":       {meme.Captions[1]},
 	}
 	apiRawResp, err := http.PostForm(apiUrl, data)
-	if err == nil {
+	if err != nil {
 		return "", err
 	}
 
 	imageUrl, err := GetUrl(apiRawResp.Body)
-	if err == nil {
+	if err != nil {
 		return "", err
 	}
 	return imageUrl, nil
@@ -73,5 +82,24 @@ func GetUrl(apiRawResp io.Reader) (string, error) {
 }
 
 func downloadFile(url string, path string, override bool) error {
-	return nil
+	// Checks if the file exists
+	if _, err := os.Stat(path); err == nil {
+		if !override {
+			return errors.New("File already exists")
+		}
+	}
+	// Download the file
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	out, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+	_, err = io.Copy(out, resp.Body)
+	return err
 }

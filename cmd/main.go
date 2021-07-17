@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
 	. "meme_as_code/src"
 )
@@ -17,7 +18,17 @@ func main() {
 
 	config, err := GetConfigFromFile(*configPath)
 	if err != nil {
-		log.Fatal("Please, provide a valid integration.")
+		log.Fatal("Please, provide a valid configuration.")
 	}
-	GetMemes(config)
+	// get user and password from env
+	config.Username = os.Getenv("USER")
+	config.Password = os.Getenv("PASS")
+	if config.Username == "" || config.Password == "" {
+		log.Fatal("Please, provide a valid username and password from environment variables USER and PASS")
+	}
+	config.Overrive = *override
+	err = GetMemes(config)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
