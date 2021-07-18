@@ -10,6 +10,7 @@ import (
 
 var (
 	configPath = flag.String("config-file", "config.yaml", "The path to the config file.")
+	outputDir  = flag.String("output-dir", "output", "The path where to download memes.")
 	override   = flag.Bool("override", false, "Override existing files.")
 )
 
@@ -26,6 +27,7 @@ func main() {
 	if config.Username == "" || config.Password == "" {
 		log.Fatal("Please, provide a valid username and password from environment variables USER and PASS")
 	}
+	config.OutputDir = *outputDir
 	config.Overrive = *override
 	err = GetMemes(config)
 	if err != nil {

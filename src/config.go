@@ -13,7 +13,7 @@ type Meme struct {
 }
 
 type Config struct {
-	OutputDir string `yaml:"output_dir"`
+	OutputDir string `default:""`
 	Username  string `default:""`
 	Password  string `default:""`
 	Overrive  bool   `default:false`
