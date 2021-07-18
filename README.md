@@ -16,6 +16,8 @@ make build
   Usage of ./meme-as-code:
     -config-file string
           The path to the config file. (default "config.yaml")
+    -output-dir string
+          The path where to download memes. (default "output")
     -override
           Override existing files.
 

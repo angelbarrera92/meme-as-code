@@ -20,7 +20,7 @@ var _ = Describe("Config", func() {
 			Expect(err).To(BeNil())
 
 			expected := &Config{
-				OutputDir: "output",
+				OutputDir: "",
 				Username:  "",
 				Password:  "",
 				Overrive:  false,
