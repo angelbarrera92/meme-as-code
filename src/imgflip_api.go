@@ -26,7 +26,7 @@ func GetMemes(config *Config) error {
 		}
 		err = downloadFile(imageUrl,
 			config.OutputDir+"/"+meme.Filename,
-			config.Overrive)
+			config.Override)
 		if err != nil {
 			return err
 		}
