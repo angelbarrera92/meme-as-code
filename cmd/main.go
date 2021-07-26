@@ -28,7 +28,7 @@ func main() {
 		log.Fatal("Please, provide a valid username and password from environment variables USER and PASS")
 	}
 	config.OutputDir = *outputDir
-	config.Overrive = *override
+	config.Override = *override
 	err = GetMemes(config)
 	if err != nil {
 		log.Fatal(err)

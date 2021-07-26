@@ -23,7 +23,7 @@ var _ = Describe("Config", func() {
 				OutputDir: "",
 				Username:  "",
 				Password:  "",
-				Overrive:  false,
+				Override:  false,
 				Memes: []Meme{
 					{
 						Filename:   "one-just-dont-simply-01.jpg",
